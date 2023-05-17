@@ -25,4 +25,10 @@ order by avg(rate)desc,r.id
 limit 10;
 
 -- Section4
-    your 4th query here
+SELECT c.name, c.phone
+FROM customers c
+JOIN orders o ON c.id = o.customer_id
+JOIN restaurant_foods rf ON o.restaurant_food_id = rf.id
+GROUP BY c.id, c.name, c.phone
+HAVING COUNT(DISTINCT rf.restaurant_id) >= 5
+order by c.name asc;
