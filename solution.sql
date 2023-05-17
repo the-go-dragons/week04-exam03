@@ -14,7 +14,15 @@ join orders o on rf.id = o.restaurant_food_id
 group by f.id,f.name
 order by avg(rate) desc,f.id
 limit 10;
+
 -- Section3
-    your 3rd query here
+select r.id,r.name
+from restaurants r
+join restaurant_foods rf on r.id = rf.restaurant_id
+join orders o on rf.id = o.restaurant_food_id
+group by r.id,r.name
+order by avg(rate)desc,r.id
+limit 10;
+
 -- Section4
     your 4th query here
