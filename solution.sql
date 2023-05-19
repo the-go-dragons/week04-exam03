@@ -1,4 +1,3 @@
--- Section1
 SELECT name, phone FROM customers
 JOIN orders on customers.id = orders.customer_id
 GROUP BY orders.customer_id
