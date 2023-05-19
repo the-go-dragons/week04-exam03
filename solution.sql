@@ -1,28 +1,29 @@
-SELECT name, phone FROM customers
-JOIN orders on customers.id = orders.customer_id
-GROUP BY orders.customer_id
-ORDER BY COUNT(orders.customer_id) DESC
-LIMIT 1;
+-- Section1
+select c.name,c.phone from customers c
+    inner  join orders o on c.id = o.customer_id
+     inner join restaurant_foods rf on rf.id = o.restaurant_food_id
+                    group by c.name, c.phone
+order by count(o.id) desc, count(rf.restaurant_id)  desc
+ limit 1;
+
 -- Section2
-select restaurant_foods.food_id as id, foods.name as name from orders
-JOIN restaurant_foods on orders.restaurant_food_id = restaurant_foods.id
-JOIN foods on restaurant_foods.food_id = foods.id
-group by restaurant_foods.food_id
-order by avg(orders.rate) DESC, restaurant_foods.food_id
-LIMIT 10;
+    select f.id,f.name from  orders o
+     inner join restaurant_foods rf on rf.id = o.restaurant_food_id
+     inner join foods f on rf.food_id = f.id
+                    group by f.id,f.name
+order by avg(o.rate) desc, f.id
+ limit 10;
 -- Section3
-select restaurant_foods.restaurant_id as id, restaurants.name as name from orders
-JOIN restaurant_foods on orders.restaurant_food_id = restaurant_foods.id
-JOIN restaurants on restaurant_foods.restaurant_id = restaurants.id
-group by restaurant_foods.restaurant_id
-order by avg(orders.rate) DESC, restaurant_foods.restaurant_id
-LIMIT 10;
+   select r.id,r.name from  orders o
+     inner join restaurant_foods rf on rf.id = o.restaurant_food_id
+     inner join restaurants r on rf.restaurant_id = r.id
+                    group by r.id,r.name
+order by avg(o.rate) desc, r.id
+ limit 10; 
 -- Section4
-SELECT customers.name, customers.phone
-FROM customers
-JOIN orders ON customers.id = orders.customer_id
-JOIN restaurant_foods ON orders.restaurant_food_id = restaurant_foods.id
-JOIN restaurants ON restaurant_foods.restaurant_id = restaurants.id
-GROUP BY customers.id
-HAVING COUNT(DISTINCT restaurants.id) >= 5
-ORDER BY customers.name ASC;
+  select c.name,c.phone  from customers c
+    inner  join orders o on c.id = o.customer_id
+     inner join restaurant_foods rf on rf.id = o.restaurant_food_id
+            group by c.name,c.phone
+            having  COUNT(DISTINCT rf.restaurant_id)>=5
+order by c.name;
